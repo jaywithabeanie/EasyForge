@@ -1,28 +1,40 @@
 package com.jaywithabeanie.easyforge;
 
 import com.jaywithabeanie.easyforge.datagen.EFDatagen;
+import com.jaywithabeanie.easyforge.internal.EFScanner;
 import com.jaywithabeanie.easyforge.items.EFItemRegistry;
+import com.jaywithabeanie.easyforge.items.VanillaItem;
+import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.IEventBus;
+import org.slf4j.Logger;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EasyForge {
 
     private final String modId;
+    private final String modPackage;
     private IEventBus modEventBus;
 
     private final EFItemRegistry items;
     private final Map<String, Component> translations = new HashMap<>();
     private final EFDatagen datagen;
 
-    public EasyForge(String modId) {
+    public static final Logger LOGGER =
+        LogUtils.getLogger();
+
+    public EasyForge(String modId, Class<?> modClass) {
         this.modId = modId;
+        this.modPackage = modClass.getPackageName();
 
         this.items = new EFItemRegistry(this);
         this.datagen = new EFDatagen(this);
+
+        EasyForge.LOGGER.info("EFLOG: EasyForge constructor loaded");
     }
 
     public String modId() {
@@ -39,6 +51,8 @@ public class EasyForge {
         this.items().assignModEventBus(modEventBus);
 
         this.registerEvents(this.modEventBus);
+
+        EFScanner.scan(modPackage);
     }
 
     public EFItemRegistry items() {

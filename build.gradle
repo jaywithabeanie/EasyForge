@@ -169,6 +169,7 @@ publishing {
     publications {
         register('mavenJava', MavenPublication) {
             from components.java
+            artifactId = "easyforge"
         }
     }
     repositories {

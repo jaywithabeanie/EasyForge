@@ -1,7 +1,6 @@
 package com.jaywithabeanie.easyforge.datagen;
 
 import com.jaywithabeanie.easyforge.EasyForge;
-import com.jaywithabeanie.easyforge.api.annotation.EasyForgeItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
